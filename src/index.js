@@ -2,6 +2,7 @@ const express = require('express');
 
 const getTalkers = require('./helpers/getTalkers');
 const getTalkerByID = require('./helpers/getTalkerByID');
+const postLogin = require('./helpers/postLogin');
 
 const app = express();
 app.use(express.json());
@@ -35,5 +36,16 @@ app.get('/talker', async (_req, res) => {
   } catch (e) {
     console.log(e.message);
     res.status(500).send(e.message);
+  }
+});
+
+app.post('/login', (req, res) => {
+  try {
+    const { body } = req;
+    const token = postLogin(body);
+    console.log(token);
+    res.status(200).json({ token });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
   }
 });
