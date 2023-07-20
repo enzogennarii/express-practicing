@@ -1,5 +1,7 @@
 const express = require('express');
 
+const getTalkers = require('./helpers/getTalkers');
+
 const app = express();
 app.use(express.json());
 
@@ -12,5 +14,15 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Online!');
+  console.log('Online');
+});
+
+app.get('/talker', async function (_req, res) {
+  try {
+    const talkers = await getTalkers();
+    res.status(200).json(talkers);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).send(e.message);
+  }
 });
