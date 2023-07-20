@@ -1,6 +1,7 @@
 const express = require('express');
 
 const getTalkers = require('./helpers/getTalkers');
+const getTalkerByID = require('./helpers/getTalkerByID');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,16 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+});
+
+app.get('/talker/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const talker = await getTalkerByID(id);
+    res.status(200).json(talker);
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
 });
 
 app.get('/talker', async (_req, res) => {
