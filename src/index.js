@@ -17,7 +17,7 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
-app.get('/talker', async function (_req, res) {
+app.get('/talker', async (_req, res) => {
   try {
     const talkers = await getTalkers();
     res.status(200).json(talkers);
