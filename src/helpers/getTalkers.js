@@ -1,10 +1,8 @@
-const fs = require('fs').promises;
-const path = require('path');
+const readFileTalkers = require('./readFileTalkers');
 
 const getTalkers = async () => {
   try {
-    const talkers = await fs.readFile(path.resolve(__dirname, '../talker.json'));
-    return JSON.parse(talkers);
+    return await readFileTalkers();
   } catch (e) {
     return [];
   }

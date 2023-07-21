@@ -3,6 +3,9 @@ const express = require('express');
 const getTalkers = require('./helpers/getTalkers');
 const getTalkerByID = require('./helpers/getTalkerByID');
 const postLogin = require('./helpers/postLogin');
+const postTalker = require('./helpers/postTalker');
+const validateToken = require('./middlewares/validadeToken');
+const validateTalker = require('./middlewares/validateTalker');
 
 const app = express();
 app.use(express.json());
@@ -23,7 +26,7 @@ app.get('/talker/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
     const talker = await getTalkerByID(id);
-    res.status(200).json(talker);
+    res.status(HTTP_OK_STATUS).json(talker);
   } catch (e) {
     res.status(404).json({ message: e.message });
   }
@@ -32,9 +35,8 @@ app.get('/talker/:id', async (req, res) => {
 app.get('/talker', async (_req, res) => {
   try {
     const talkers = await getTalkers();
-    res.status(200).json(talkers);
+    res.status(HTTP_OK_STATUS).json(talkers);
   } catch (e) {
-    console.log(e.message);
     res.status(500).send(e.message);
   }
 });
@@ -43,9 +45,20 @@ app.post('/login', (req, res) => {
   try {
     const { body } = req;
     const token = postLogin(body);
-    console.log(token);
-    res.status(200).json({ token });
+    res.status(HTTP_OK_STATUS).json({ token });
   } catch (e) {
     res.status(400).json({ message: e.message });
+  }
+});
+
+app.post('/talker', validateToken, validateTalker, async (req, res) => {
+  try {
+    const { body } = req;
+    const newTalker = body;
+    console.log('Talker a ser adicionado: \n', newTalker);
+    await postTalker(req);
+    res.status(201).json(newTalker);
+  } catch (e) {
+    res.status(200).json({ message: e.message });
   }
 });
