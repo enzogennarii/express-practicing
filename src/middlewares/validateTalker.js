@@ -3,7 +3,7 @@ const validadeName = (name) => {
     throw new Error('O campo "name" é obrigatório');
   }
   if (name.length < 3) {
-    throw new Error('O campo "name" deve ter pelo menos 3 caracteres');
+    throw new Error('O "name" deve ter pelo menos 3 caracteres');
   }
 };
 
@@ -29,7 +29,7 @@ const validateWatchedAt = (date) => {
 };
 
 const validateRate = (rate) => {
-  if (!rate) throw new Error('O campo "rate" é obrigatório');
+  if (rate === undefined) throw new Error('O campo "rate" é obrigatório');
 
   if (!Number.isInteger(rate) || rate < 1 || rate > 5) {
     throw new Error('O campo "rate" deve ser um número inteiro entre 1 e 5');
@@ -56,7 +56,7 @@ const validateTalker = (req, res, next) => {
 
     next();
   } catch (e) {
-    return res.status(400).json(e.message);
+    return res.status(400).json({ message: e.message });
   }
 };
 
