@@ -12,13 +12,16 @@ const postTalker = async (req) => {
   await writeFileTalkers(newTalkersList);
 };
 
-// const teste = {
-//   "name": "Talker Teste",
-//   "age": 50,
-//   "talk": {
-//     "watchedAt": "11/11/1111",
-//     "rate": 5
-//   }
-// }
+/* 
+TESTE SEM ERROS
+{
+  "name": "Danielle Santos",
+  "age": 56,
+  "talk": {
+    "watchedAt": "22/10/2019",
+    "rate": 5
+  }
+}
+*/
 
 module.exports = postTalker;
