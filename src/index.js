@@ -9,6 +9,7 @@ const validateTalker = require('./middlewares/validateTalker');
 const putTalker = require('./helpers/putTalker');
 const deleteTalker = require('./helpers/deleteTalker');
 const getTalkerByQuery = require('./helpers/getTalkerByQuery');
+const validateQuery = require('./middlewares/validateQuery');
 
 const app = express();
 app.use(express.json());
@@ -25,13 +26,13 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
-// REQUISITO 8
-app.get('/talker/search', validateToken, async (req, res) => {
+// REQUISITO 8 E 9
+app.get('/talker/search', validateToken, validateQuery, async (req, res) => {
   try {
     const searchResult = await getTalkerByQuery(req);
     res.status(200).json(searchResult);
   } catch (e) {
-    res.status(500).json({ message: 'Erro inesperado!' })
+    res.status(500).json({ message: 'Erro inesperado!' });
   }
 });
 
@@ -72,7 +73,6 @@ app.post('/talker', validateToken, validateTalker, async (req, res) => {
   try {
     const { body } = req;
     const newTalker = body;
-    console.log('Talker a ser adicionado: \n', newTalker);
     await postTalker(req);
     res.status(201).json(newTalker);
   } catch (e) {
