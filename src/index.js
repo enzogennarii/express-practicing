@@ -7,6 +7,7 @@ const postTalker = require('./helpers/postTalker');
 const validateToken = require('./middlewares/validadeToken');
 const validateTalker = require('./middlewares/validateTalker');
 const putTalker = require('./helpers/putTalker');
+const deleteTalker = require('./helpers/deleteTalker');
 
 const app = express();
 app.use(express.json());
@@ -73,6 +74,16 @@ app.put('/talker/:id', validateToken, validateTalker, async (req, res) => {
   try {
     const updatedTalker = await putTalker(req);
     res.status(200).json(updatedTalker);
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+});
+
+// REQUISITO 7
+app.delete('/talker/:id', validateToken, async (req, res) => {
+  try {
+    await deleteTalker(req);
+    res.status(204).end();
   } catch (e) {
     res.status(404).json({ message: e.message });
   }
