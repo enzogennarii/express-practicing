@@ -10,6 +10,7 @@ const putTalker = require('./helpers/putTalker');
 const deleteTalker = require('./helpers/deleteTalker');
 const getTalkerByQuery = require('./helpers/getTalkerByQuery');
 const validateQuery = require('./middlewares/validateQuery');
+const patchRate = require('./helpers/patchRate');
 
 const app = express();
 app.use(express.json());
@@ -26,7 +27,7 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
-// REQUISITO 8 E 9
+// REQUISITO 8, 9 E 10
 app.get('/talker/search', validateToken, validateQuery, async (req, res) => {
   try {
     const searchResult = await getTalkerByQuery(req);
@@ -97,5 +98,15 @@ app.delete('/talker/:id', validateToken, async (req, res) => {
     res.status(204).end();
   } catch (e) {
     res.status(404).json({ message: e.message });
+  }
+});
+
+// REQUISITO 11
+app.patch('/talker/rate/:id', validateToken, async (req, res) => {
+  try {
+    await patchRate(req);
+    res.status(204).end();
+  } catch (e) {
+    res.status(400).json({ message: e.message })
   }
 });
