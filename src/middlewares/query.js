@@ -1,4 +1,4 @@
-const validateRate = (rate) => {
+const validateRateAsQuery = (rate) => {
   const hasRate = rate !== undefined;
   const rateQuery = Number(rate);
   const isValidRate = Number.isInteger(rateQuery) && rateQuery >= 1 && rateQuery <= 5;
@@ -8,7 +8,7 @@ const validateRate = (rate) => {
   }
 };
 
-const validateDate = (date) => {
+const validateDateAsQuery = (date) => {
   const hasDate = date !== undefined;
   const regexDate = /^\d{2}\/\d{2}\/\d{4}$/;
   const isValidDate = regexDate.test(date) || date === '';
@@ -26,8 +26,8 @@ const validateQuery = (req, res, next) => {
       return next();
     }
 
-    validateRate(rate);
-    validateDate(date);
+    validateRateAsQuery(rate);
+    validateDateAsQuery(date);
 
     next();
   } catch (e) {
