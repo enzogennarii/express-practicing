@@ -2,7 +2,6 @@ const express = require('express');
 
 const { talkerService, loginService } = require('./services');
 const validate = require('./middlewares');
-const connection = require('./db/connection');
 
 const app = express();
 app.use(express.json());

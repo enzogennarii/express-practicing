@@ -17,14 +17,14 @@ const write = async (content) => {
 const readDB = async () => {
   const [data] = await connection.execute('SELECT * FROM talkers');
   const formatted = data.map((talker) => {
-    const { name, age, id, talk_watched_at, talk_rate } = talker;
-    return {
-      name, age, id,
-      talk: {
-        watchedAt: talk_watched_at,
-        rate: talk_rate,
-      },
-    };
+    const {
+      name,
+      age,
+      id,
+      talk_watched_at: watchedAt,
+      talk_rate: rate,
+    } = talker;
+    return { name, age, id, talk: { watchedAt, rate } };
   });
   return formatted;
 };
